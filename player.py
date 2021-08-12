@@ -10,8 +10,15 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottom = 760
         self.player_speed = 8
         self.screen_width = screen_width
-        
+        self.last_shot = pygame.time.get_ticks()
+        self.gun_cooldown = 300
+
     def update(self, keys):
+        time = pygame.time.get_ticks()
+        if keys[pygame.K_SPACE] and time - self.last_shot > self.gun_cooldown:
+            print('shoot')
+            self.last_shot = time
+
         if keys[pygame.K_LEFT] and self.rect.left > 0:
             self.rect.x -= self.player_speed
 

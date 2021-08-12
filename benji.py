@@ -36,6 +36,11 @@ while True:
             pygame.quit()
             exit(0)
 
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                exit(0)
+
     screen.blit(bg, (0, 0))
     player_group.draw(screen)
     alien_group.draw(screen)
