@@ -1,6 +1,7 @@
 import pygame
 
 from player import Player
+from alien import Alien
 
 pygame.init()
 
@@ -18,8 +19,11 @@ bg = pygame.image.load('img/bg.png')
 # player
 player = Player(screen_width)
 
-player_group = pygame.sprite.Group(player.player_sprite)
+# alien
+alien = Alien(200, 200)
 
+player_group = pygame.sprite.Group(player)
+alien_group = pygame.sprite.Group(alien)
 
 while True:
 
@@ -34,5 +38,6 @@ while True:
 
     screen.blit(bg, (0, 0))
     player_group.draw(screen)
+    alien_group.draw(screen)
     pygame.display.update()
     clock.tick(FPS)
