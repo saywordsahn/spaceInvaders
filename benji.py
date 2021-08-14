@@ -37,6 +37,7 @@ player = Player(screen_width)
 player_group = pygame.sprite.Group(player)
 alien_group = pygame.sprite.Group()
 bullet_group = pygame.sprite.Group()
+explosion_group = pygame.sprite.Group()
 
 # alien
 alien = Alien(200, 200)
@@ -79,13 +80,16 @@ while True:
         alien.update()
 
     for bullet in bullet_group:
-        bullet.update(alien_group, explosion_fx)
+        bullet.update(alien_group, explosion_group, explosion_fx)
 
+    for explosion in explosion_group:
+        explosion.update()
 
     # update screen
     screen.blit(bg, (0, 0))
     player_group.draw(screen)
     alien_group.draw(screen)
     bullet_group.draw(screen)
+    explosion_group.draw(screen)
     pygame.display.update()
     clock.tick(FPS)

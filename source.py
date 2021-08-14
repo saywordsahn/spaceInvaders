@@ -44,7 +44,7 @@ alien_cooldown = 1000#bullet cooldown in milliseconds
 last_alien_shot = pygame.time.get_ticks()
 countdown = 3
 last_count = pygame.time.get_ticks()
-game_over = 0#0 is no game over, 1 means player has won, -1 means player has lost
+game_over = 0 #0 is no game over, 1 means player has won, -1 means player has lost
 
 #define colours
 red = (255, 0, 0)
