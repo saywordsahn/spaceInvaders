@@ -4,6 +4,7 @@ from pygame import mixer
 from player import Player
 from alien import Alien
 from bullet import Bullet
+from alien_bullets import AlienBullets
 
 pygame.mixer.pre_init(44100, -16, 2, 512)
 mixer.init()
@@ -30,6 +31,9 @@ laser_fx.set_volume(0.25)
 explosion_fx = pygame.mixer.Sound("img/explosion.wav")
 explosion_fx.set_volume(0.25)
 
+explosion2_fx = pygame.mixer.Sound("img/explosion2.wav")
+explosion2_fx.set_volume(0.25)
+
 # player
 player = Player(screen_width)
 
@@ -38,9 +42,11 @@ player_group = pygame.sprite.Group(player)
 alien_group = pygame.sprite.Group()
 bullet_group = pygame.sprite.Group()
 explosion_group = pygame.sprite.Group()
+alien_bullet_group = pygame.sprite.Group()
 
 # alien
 alien = Alien(200, 200)
+alien_bullets = AlienBullets(explosion2_fx, screen_height)
 
 # add aliens
 for row in range(rows):
@@ -85,10 +91,13 @@ while True:
     for explosion in explosion_group:
         explosion.update()
 
+    alien_bullets.update(alien_bullet_group, alien_group, player_group)
+
     # update screen
     screen.blit(bg, (0, 0))
     player_group.draw(screen)
     alien_group.draw(screen)
+    alien_bullet_group.draw(screen)
     bullet_group.draw(screen)
     explosion_group.draw(screen)
     pygame.display.update()
