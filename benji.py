@@ -7,6 +7,11 @@ from bullet import Bullet
 from alien_bullets import AlienBullets
 from sounds import Sounds
 
+
+def draw_text(text, font, text_col, x, y):
+    txt_img = font.render(text, True, text_col)
+    screen.blit(txt_img, (x, y))
+
 pygame.init()
 sounds = Sounds()
 
@@ -15,6 +20,7 @@ screen_width = 600
 screen_height = 800
 clock = pygame.time.Clock()
 FPS = 60
+game_over = False
 
 rows = 5
 cols = 5
@@ -24,6 +30,10 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Space Invaders')
 
 bg = pygame.image.load('img/bg.png')
+
+#define fonts
+font30 = pygame.font.SysFont('Constantia', 30)
+font40 = pygame.font.SysFont('Constantia', 40)
 
 # player
 player = Player(screen_width, sounds)
@@ -86,14 +96,20 @@ while True:
     alien_bullets.update(alien_bullet_group, alien_group, player_group, explosion_group)
 
 
-
+    if len(explosion_group) == 0 and not player.alive:
+        game_over = True
 
     # update screen
     screen.blit(bg, (0, 0))
-    player_group.draw(screen)
-    alien_group.draw(screen)
-    alien_bullet_group.draw(screen)
-    bullet_group.draw(screen)
-    explosion_group.draw(screen)
+
+    if game_over:
+        draw_text('Game Over!', font40, pygame.color.Color('white'), int(screen_width / 2 - 100), int(screen_height / 2 + 50))
+    else:
+        player_group.draw(screen)
+        alien_group.draw(screen)
+        alien_bullet_group.draw(screen)
+        bullet_group.draw(screen)
+        explosion_group.draw(screen)
+
     pygame.display.update()
     clock.tick(FPS)

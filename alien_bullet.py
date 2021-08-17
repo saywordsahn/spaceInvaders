@@ -11,9 +11,10 @@ class AlienBullet(pygame.sprite.Sprite):
         self.rect.center = [x, y]
         self.explode_fx = explode_fx
         self.screen_height = screen_height
+        self.bullet_speed = 2
 
     def update(self, player_group, explosion_group):
-        self.rect.y += 2
+        self.rect.y += self.bullet_speed
         if self.rect.top > self.screen_height:
             self.kill()
         if pygame.sprite.spritecollide(self, player_group, False, pygame.sprite.collide_mask):
