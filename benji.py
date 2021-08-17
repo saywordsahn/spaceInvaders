@@ -1,4 +1,5 @@
 import pygame
+import random
 from pygame import mixer
 
 from player import Player
@@ -45,13 +46,18 @@ explosion_group = pygame.sprite.Group()
 alien_bullet_group = pygame.sprite.Group()
 
 # alien
-alien = Alien(200, 200)
 alien_bullets = AlienBullets(explosion2_fx, screen_height)
 
 # add aliens
+alien_images = []
+for i in range(1, 5):
+    loc = 'img/alien' + str(i) + '.png'
+    img = pygame.image.load(loc)
+    alien_images.append(img)
+
 for row in range(rows):
     for col in range(cols):
-        alien = Alien(100 + col * 100, 100 + row * 70)
+        alien = Alien(random.choice(alien_images), 100 + col * 100, 100 + row * 70)
         alien_group.add(alien)
 
 
