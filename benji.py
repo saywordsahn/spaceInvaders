@@ -1,16 +1,15 @@
 import pygame
 import random
-from pygame import mixer
 
 from player import Player
 from alien import Alien
 from bullet import Bullet
 from alien_bullets import AlienBullets
-from explosion import Explosion
+from sounds import Sounds
 
-pygame.mixer.pre_init(44100, -16, 2, 512)
-mixer.init()
 pygame.init()
+sounds = Sounds()
+
 
 screen_width = 600
 screen_height = 800
@@ -26,16 +25,6 @@ pygame.display.set_caption('Space Invaders')
 
 bg = pygame.image.load('img/bg.png')
 
-# load sounds
-laser_fx = pygame.mixer.Sound('img/laser.wav')
-laser_fx.set_volume(0.25)
-
-explosion_fx = pygame.mixer.Sound("img/explosion.wav")
-explosion_fx.set_volume(0.25)
-
-explosion2_fx = pygame.mixer.Sound("img/explosion2.wav")
-explosion2_fx.set_volume(0.25)
-
 # player
 player = Player(screen_width)
 
@@ -47,7 +36,7 @@ explosion_group = pygame.sprite.Group()
 alien_bullet_group = pygame.sprite.Group()
 
 # alien
-alien_bullets = AlienBullets(explosion2_fx, screen_height)
+alien_bullets = AlienBullets(sounds.explosion2_fx, screen_height)
 
 # add aliens
 alien_images = []
@@ -70,7 +59,7 @@ while True:
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_SPACE] and time - player.last_shot > player.gun_cooldown:
-        laser_fx.play()
+        sounds.laser_fx.play()
         bullet = Bullet(player.rect.centerx, player.rect.top)
         bullet_group.add(bullet)
         player.last_shot = time
@@ -93,7 +82,7 @@ while True:
         alien.update()
 
     for bullet in bullet_group:
-        bullet.update(alien_group, explosion_group, explosion_fx)
+        bullet.update(alien_group, explosion_group, sounds.explosion_fx)
 
     for explosion in explosion_group:
         explosion.update()
