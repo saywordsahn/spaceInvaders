@@ -12,7 +12,7 @@ class AlienBullets():
         self.screen_height = screen_height
         self.alien_bullet_image = pygame.image.load('img/alien_bullet.png').convert_alpha()
 
-    def update(self, alien_bullet_group, alien_group, player_group):
+    def update(self, alien_bullet_group, alien_group, player_group, explosion_group):
         time = pygame.time.get_ticks()
         cooldown_passed = time - self.last_shot > 1000
         under_max_bullets_allowed = len(alien_bullet_group) < self.max_bullets
@@ -28,4 +28,4 @@ class AlienBullets():
             self.last_shot = time
 
         for bullet in alien_bullet_group:
-            bullet.update(player_group)
+            bullet.update(player_group, explosion_group)

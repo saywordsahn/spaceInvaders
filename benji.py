@@ -6,6 +6,7 @@ from player import Player
 from alien import Alien
 from bullet import Bullet
 from alien_bullets import AlienBullets
+from explosion import Explosion
 
 pygame.mixer.pre_init(44100, -16, 2, 512)
 mixer.init()
@@ -86,7 +87,7 @@ while True:
                 exit(0)
 
 
-    player.update(keys)
+    player.update(keys, explosion_group)
 
     for alien in alien_group:
         alien.update()
@@ -97,7 +98,10 @@ while True:
     for explosion in explosion_group:
         explosion.update()
 
-    alien_bullets.update(alien_bullet_group, alien_group, player_group)
+    alien_bullets.update(alien_bullet_group, alien_group, player_group, explosion_group)
+
+
+
 
     # update screen
     screen.blit(bg, (0, 0))
