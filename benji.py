@@ -26,7 +26,7 @@ pygame.display.set_caption('Space Invaders')
 bg = pygame.image.load('img/bg.png')
 
 # player
-player = Player(screen_width)
+player = Player(screen_width, sounds)
 
 # create groups
 player_group = pygame.sprite.Group(player)
@@ -50,10 +50,6 @@ for row in range(rows):
         alien = Alien(random.choice(alien_images), 100 + col * 100, 100 + row * 70)
         alien_group.add(alien)
 
-
-
-
-
 while True:
     time = pygame.time.get_ticks()
     keys = pygame.key.get_pressed()
@@ -76,7 +72,7 @@ while True:
                 exit(0)
 
 
-    player.update(keys, explosion_group)
+    player.update(keys, bullet_group, explosion_group)
 
     for alien in alien_group:
         alien.update()
