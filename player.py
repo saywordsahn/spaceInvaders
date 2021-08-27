@@ -19,7 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.alive = True
         self.sounds = sounds
 
-    def update(self, keys, bullet_group, explosion_group):
+    def update(self, screen, keys, bullet_group, explosion_group):
 
         time = pygame.time.get_ticks()
 
@@ -41,3 +41,5 @@ class Player(pygame.sprite.Sprite):
                 explosion_group.add(explosion)
                 self.kill()
                 self.alive = False
+
+

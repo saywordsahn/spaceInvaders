@@ -7,14 +7,12 @@ from bullet import Bullet
 from alien_bullets import AlienBullets
 from sounds import Sounds
 
-
 def draw_text(text, font, text_col, x, y):
     txt_img = font.render(text, True, text_col)
     screen.blit(txt_img, (x, y))
 
 pygame.init()
 sounds = Sounds()
-
 
 screen_width = 600
 screen_height = 800
@@ -24,7 +22,6 @@ game_over = False
 
 rows = 5
 cols = 5
-
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Space Invaders')
@@ -38,15 +35,29 @@ font40 = pygame.font.SysFont('Constantia', 40)
 # player
 player = Player(screen_width, sounds)
 
+# heart
+heart_image = pygame.image.load('img/heart.png')
+heart_image = pygame.transform.scale(heart_image, (30, 30))
+
+class Heart(pygame.sprite.Sprite):
+
+    def __init__(self, image, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
+
 # create groups
+hud_group = pygame.sprite.Group()
+
+for i in range(3):
+    hud_group.add(Heart(heart_image, 480 + 40 * i, 10))
+
 player_group = pygame.sprite.Group(player)
 alien_group = pygame.sprite.Group()
 bullet_group = pygame.sprite.Group()
 explosion_group = pygame.sprite.Group()
-alien_bullet_group = pygame.sprite.Group()
-
-# alien
-alien_bullets = AlienBullets(sounds.explosion2_fx, screen_height)
+alien_bullet_group = AlienBullets(sounds.explosion2_fx, screen_height)
 
 # add aliens
 alien_images = []
@@ -82,7 +93,7 @@ while True:
                 exit(0)
 
 
-    player.update(keys, bullet_group, explosion_group)
+    player.update(screen, keys, bullet_group, explosion_group)
 
     for alien in alien_group:
         alien.update()
@@ -93,7 +104,7 @@ while True:
     for explosion in explosion_group:
         explosion.update()
 
-    alien_bullets.update(alien_bullet_group, alien_group, player_group, explosion_group)
+    alien_bullet_group.update(hud_group, alien_group, player_group, explosion_group)
 
 
     if len(explosion_group) == 0 and not player.alive:
@@ -110,6 +121,7 @@ while True:
         alien_bullet_group.draw(screen)
         bullet_group.draw(screen)
         explosion_group.draw(screen)
+        hud_group.draw(screen)
 
     pygame.display.update()
     clock.tick(FPS)
