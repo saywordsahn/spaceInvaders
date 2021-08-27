@@ -12,7 +12,7 @@ def draw_text(text, font, text_col, x, y):
     screen.blit(txt_img, (x, y))
 
 pygame.init()
-sounds = Sounds()
+sounds = Sounds(volume=.025)
 
 screen_width = 600
 screen_height = 800
