@@ -6,6 +6,7 @@ from alien import Alien
 from bullet import Bullet
 from alien_bullets import AlienBullets
 from sounds import Sounds
+from aliens import Aliens
 
 def draw_text(text, font, text_col, x, y):
     txt_img = font.render(text, True, text_col)
@@ -19,9 +20,6 @@ screen_height = 800
 clock = pygame.time.Clock()
 FPS = 60
 game_over = False
-
-rows = 5
-cols = 5
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Space Invaders')
@@ -54,22 +52,13 @@ for i in range(3):
     hud_group.add(Heart(heart_image, 480 + 40 * i, 10))
 
 player_group = pygame.sprite.Group(player)
-alien_group = pygame.sprite.Group()
+alien_group = Aliens()
+alien_group.generate()
 bullet_group = pygame.sprite.Group()
 explosion_group = pygame.sprite.Group()
 alien_bullet_group = AlienBullets(sounds.explosion2_fx, screen_height)
 
-# add aliens
-alien_images = []
-for i in range(1, 5):
-    loc = 'img/alien' + str(i) + '.png'
-    img = pygame.image.load(loc)
-    alien_images.append(img)
 
-for row in range(rows):
-    for col in range(cols):
-        alien = Alien(random.choice(alien_images), 100 + col * 100, 100 + row * 70)
-        alien_group.add(alien)
 
 while True:
     time = pygame.time.get_ticks()
@@ -95,8 +84,7 @@ while True:
 
     player.update(screen, keys, bullet_group, explosion_group)
 
-    for alien in alien_group:
-        alien.update()
+    alien_group.update()
 
     for bullet in bullet_group:
         bullet.update(alien_group, explosion_group, sounds.explosion_fx)
