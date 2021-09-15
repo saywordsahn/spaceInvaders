@@ -7,6 +7,7 @@ from bullet import Bullet
 from alien_bullets import AlienBullets
 from sounds import Sounds
 from aliens import Aliens
+from heart import Heart
 
 def draw_text(text, font, text_col, x, y):
     txt_img = font.render(text, True, text_col)
@@ -37,14 +38,6 @@ player = Player(screen_width, sounds)
 heart_image = pygame.image.load('img/heart.png')
 heart_image = pygame.transform.scale(heart_image, (30, 30))
 
-class Heart(pygame.sprite.Sprite):
-
-    def __init__(self, image, x, y):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = image
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
-
 # create groups
 hud_group = pygame.sprite.Group()
 
@@ -57,8 +50,6 @@ alien_group.generate()
 bullet_group = pygame.sprite.Group()
 explosion_group = pygame.sprite.Group()
 alien_bullet_group = AlienBullets(sounds.explosion2_fx, screen_height)
-
-
 
 while True:
     time = pygame.time.get_ticks()

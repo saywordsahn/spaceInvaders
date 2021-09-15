@@ -20,18 +20,15 @@ class Explosion(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = [x, y]
         self.counter = 0
+        self.explosion_speed = 3
 
     def update(self):
-        explosion_speed = 3
         self.counter += 1
 
-        if self.counter >= explosion_speed and self.index < len(self.images) - 1:
+        if self.counter >= self.explosion_speed and self.index < len(self.images) - 1:
             self.counter = 0
             self.index += 1
             self.image = self.images[self.index]
 
-        if self.index >= len(self.images) - 1 and self.counter >= explosion_speed:
+        if self.index >= len(self.images) - 1 and self.counter >= self.explosion_speed:
             self.kill()
-
-
-
