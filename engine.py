@@ -46,9 +46,14 @@ class Engine:
         self.alien_group.generate()
         self.bullet_group = pygame.sprite.Group()
         self.explosion_group = pygame.sprite.Group()
-        self.alien_bullet_group = AlienBullets(self.sounds.explosion2_fx, self.screen_height)
+        self.alien_bullet_group = AlienBullets(self.sounds.explosion2_fx, self.screen_height, 5)
 
         self.keys = pygame.key.get_pressed()
+
+        self.current_level = 1
+
+    def set_level(self, level):
+        self.alien_group.generate()
 
 
     def input(self):
@@ -86,6 +91,10 @@ class Engine:
 
         if len(self.explosion_group) == 0 and not self.player.alive:
             self.game_over = True
+
+        if len(self.alien_group) == 0:
+            self.current_leve += 1
+            self.set_level(self.current_level)
 
     def draw_text(screen, text, font, text_col, x, y):
         txt_img = font.render(text, True, text_col)

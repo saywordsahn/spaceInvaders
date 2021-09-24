@@ -4,9 +4,9 @@ from alien_bullet import AlienBullet
 
 class AlienBullets(pygame.sprite.Group):
 
-    def __init__(self, alien_explode_fx, screen_height):
+    def __init__(self, alien_explode_fx, screen_height, max_bullets):
         pygame.sprite.Group.__init__(self)
-        self.max_bullets = 5
+        self.max_bullets = max_bullets
         self.alien_bullet_cooldown = 1000
         self.last_shot = pygame.time.get_ticks()
         self.bullet_fx = alien_explode_fx
