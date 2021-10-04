@@ -5,7 +5,7 @@ from heart import Heart
 from aliens import Aliens
 from alien_bullets import AlienBullets
 from bullet import Bullet
-
+from explosion import Explosion
 
 class Engine:
 
@@ -54,7 +54,8 @@ class Engine:
 
     def set_level(self, level):
         self.alien_group.generate()
-
+        self.alien_bullet_group.max_bullets += 2
+        self.alien_bullet_group.alien_bullet_cooldown -= 100
 
     def input(self):
         time = pygame.time.get_ticks()
@@ -76,6 +77,14 @@ class Engine:
                     pygame.quit()
                     exit(0)
 
+    def explode_all_enemies(self):
+        if len(self.alien_group) > 0:
+            for enemy in self.alien_group:
+                explosion = Explosion(enemy.rect.centerx, enemy.rect.centery, 1)
+                self.explosion_group.add(explosion)
+                self.sounds.explosion_fx.play()
+                enemy.kill()
+
     def update(self):
         self.player.update(self.screen, self.keys, self.bullet_group, self.explosion_group)
 
@@ -91,12 +100,14 @@ class Engine:
 
         if len(self.explosion_group) == 0 and not self.player.alive:
             self.game_over = True
+            self.explode_all_enemies()
 
         if len(self.alien_group) == 0:
-            self.current_leve += 1
+            self.current_level += 1
             self.set_level(self.current_level)
 
-    def draw_text(screen, text, font, text_col, x, y):
+
+    def draw_text(self, screen, text, font, text_col, x, y):
         txt_img = font.render(text, True, text_col)
         screen.blit(txt_img, (x, y))
 

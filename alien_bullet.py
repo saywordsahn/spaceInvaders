@@ -21,6 +21,7 @@ class AlienBullet(pygame.sprite.Sprite):
             self.kill()
             self.explode_fx.play()
             # bad practice... there's only 1 player
+
             for player in player_group:
                 player.health -= 1
                 hud_group.sprites()[len(hud_group.sprites()) - 1].kill()

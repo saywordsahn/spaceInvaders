@@ -24,6 +24,14 @@ class Player(pygame.sprite.Sprite):
         time = pygame.time.get_ticks()
 
         if self.alive:
+
+            if self.health <= 0:
+                explosion = Explosion(self.rect.centerx, self.rect.centery, 3)
+                explosion_group.add(explosion)
+                self.kill()
+                self.alive = False
+                return
+
             if keys[pygame.K_LEFT] and self.rect.left > 0:
                 self.rect.x -= self.player_speed
 
@@ -35,11 +43,3 @@ class Player(pygame.sprite.Sprite):
                 bullet = Bullet(self.rect.centerx, self.rect.top)
                 bullet_group.add(bullet)
                 self.last_shot = time
-
-            if self.health <= 0:
-                explosion = Explosion(self.rect.centerx, self.rect.centery, 3)
-                explosion_group.add(explosion)
-                self.kill()
-                self.alive = False
-
-
